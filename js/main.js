@@ -1,27 +1,39 @@
 let formulario = document.getElementById("formulario");
 
+
 formulario.addEventListener("submit", (e) => {
   e.preventDefault(); //evito que se recargue el formulario
 
-   const input1 = e.target.children[0].children[0].children[0].children[1].value; //traigo los inputs del formulario
-   const input2 = e.target.children[0].children[1].children[0].children[1].value; //traigo los inputs del formulario
+   let input1 = e.target.children[0].children[0].children[0]; //traigo los inputs del formulario
+   let input2 = e.target.children[0].children[1].children[0]; 
+   let input2Parse = parseInt(input2.children[1].value)
 
-    console.log(input1);
-    console.log(input2);
-//   // console.log(inputs[0].value);
-//   // alert(inputs[1].value);
+    if (input2Parse >0 && input2Parse <=10 && input1 != "") {
+        let alumnos = []
+        if (sessionStorage.getItem("alumnos") != null){
+            alumnos = JSON.parse(sessionStorage.getItem("alumnos"))
+        }
+        alumnos.push({ nombre: input1.children[1].value, calificacion: input2Parse });
+        sessionStorage.setItem("alumnos", JSON.stringify(alumnos));
+        input1.children[1].value = "";
+        input2.children[1].value = "";
+        alert("Agregado");
+    }else{
+        if(input1 == ""){
+            alert("Complete el campo Nombre");
+        }else{
+            alert("Ingrese una calificaciòn correcta");
+            input2.children[1].value = "";
+        }
+    }
+});
 
-// //   if (inputs[1].value < 0 || inputs[1].value > 10 || inputs[1].value == ""                       ) {
-// //     inputs[1].value = "";
-// //     alert("El campo debe tener el 1-10");
-// //   }else{
-// //     inputs[0].value = "";
-// //     inputs[1].value = "";
-// //     alert("enviado");
-// //   }
- });
-
-
+ //let nombre = localStorage.getItem("nombre");
+// console.log(nombre);
+// let valor = localStorage.getItem("valor");
+// console.log(valor);
+// let numero = localStorage.getItem("numero");
+// console.log(numero);
 // document.addEventListener('DOMContentLoaded', function () {
 //     let formulario = document.getElementById("formulario");
 
