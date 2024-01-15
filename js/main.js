@@ -1,5 +1,5 @@
 let formulario = document.getElementById("formulario");
-
+let botonCalcular = document.getElementById("botonCalcular");
 
 formulario.addEventListener("submit", (e) => {
   e.preventDefault(); //evito que se recargue el formulario
@@ -28,35 +28,6 @@ formulario.addEventListener("submit", (e) => {
     }
 });
 
- //let nombre = localStorage.getItem("nombre");
-// console.log(nombre);
-// let valor = localStorage.getItem("valor");
-// console.log(valor);
-// let numero = localStorage.getItem("numero");
-// console.log(numero);
-// document.addEventListener('DOMContentLoaded', function () {
-//     let formulario = document.getElementById("formulario");
-
-//     formulario.addEventListener("submit", function (e) {
-//         e.preventDefault();
-
-//         let inputNombre = document.getElementById("inputNombre");
-//         let inputCalificacion = document.getElementById("inputCalificacion");
-
-//         // Verifica que los elementos existan antes de acceder a sus valores
-//         if (inputNombre && inputCalificacion) {
-//             let nombre = inputNombre.value;
-//             let calificacion = parseFloat(inputCalificacion.value);
-
-//             // Verifica que la calificación sea un número válido entre 1 y 10
-//             if (!isNaN(calificacion) && calificacion >= 1 && calificacion <= 10) {
-//                 console.log("Nombre: " + nombre);
-//                 console.log("Calificación: " + calificacion);
-
-//                 // Puedes realizar más operaciones o enviar los datos a un servidor aquí
-//             } else {
-//                 console.error("La calificación debe ser un número entre 1 y 10");
-//             }
-//         }
-//     });
-// });
+botonCalcular.addEventListener("submit",(e)=>{
+   // console.log(sessionStorage.getItem("alumnos"));
+})
