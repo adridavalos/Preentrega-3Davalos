@@ -28,6 +28,6 @@ formulario.addEventListener("submit", (e) => {
     }
 });
 
-botonCalcular.addEventListener("submit",(e)=>{
+botonCalcular.addEventListener("submit", ()=>{
    // console.log(sessionStorage.getItem("alumnos"));
 })
