@@ -12,7 +12,6 @@ formulario.addEventListener("submit", (e) => {
     let input1 = e.target.children[0].children[0].children[0]; 
     let input2 = e.target.children[0].children[1].children[0];
     let input2Parse = parseInt(input2.children[1].value);
-    console.log(input1.children[1].value);
 
     if (input2Parse > 0 && input2Parse <= 10 && input1.children[1].value != ""){
         let alumnos = [];
@@ -80,6 +79,8 @@ botonCalcular.addEventListener("reset", (e) => {
     e.preventDefault();
     localStorage.clear();
     contenedor.innerHTML = '';
+    calificacionInput.classList.remove("error");
+    nombreInput.classList.remove("error");
     Swal.fire({
         title: "Se borro con éxito.",
         icon: "success"
