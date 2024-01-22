@@ -3,10 +3,14 @@ h1{
  background-color: rgb(54, 54, 253);
  color: aliceblue;
  font-family: 'Courier New', Courier, monospace;
- font-size: 1rem;
+ font-size: 2rem;
+ font-weight: bold;
  border-radius: 5px ;
 }
 form{
     background-color: rgb(208, 207, 207);
     border-radius: 5px ;
+}
+.error {
+    border: 2px solid red;
 }

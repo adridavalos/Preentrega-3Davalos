@@ -3,41 +3,46 @@ import * as calcular from "./calculo.js";
 let formulario = document.getElementById("formulario");
 let botonCalcular = document.getElementById("botonCalcular");
 let contenedor = document.getElementById("contenedor");
+let calificacionInput = document.getElementById("inputCalificacion");
+let nombreInput = document.getElementById("inputNombre");
 
 formulario.addEventListener("submit", (e) => {
   e.preventDefault(); //evito que se recargue el formulario
 
-    let input1 = e.target.children[0].children[0].children[0]; //traigo los inputs del formulario
+    let input1 = e.target.children[0].children[0].children[0]; 
     let input2 = e.target.children[0].children[1].children[0];
     let input2Parse = parseInt(input2.children[1].value);
+    console.log(input1.children[1].value);
 
-    if (input2Parse > 0 && input2Parse <= 10 && input1 != "") {
+    if (input2Parse > 0 && input2Parse <= 10 && input1.children[1].value != ""){
         let alumnos = [];
+        calificacionInput.classList.remove("error");
+        nombreInput.classList.remove("error");
         
-        if (sessionStorage.getItem("alumnos") != null) {
-            alumnos = JSON.parse(sessionStorage.getItem("alumnos"));
+        if (localStorage.getItem("alumnos") != null) {
+            alumnos = JSON.parse(localStorage.getItem("alumnos"));
         }
         alumnos.push({
             nombre: input1.children[1].value,
             calificacion: input2Parse,
         });
-        sessionStorage.setItem("alumnos", JSON.stringify(alumnos));
+        localStorage.setItem("alumnos", JSON.stringify(alumnos));
         input1.children[1].value = "";
         input2.children[1].value = "";
-        alert("Agregado");
     } else {
-        if (input1 == "") {
-            alert("Complete el campo Nombre");
+        if (input1.children[1].value == "") {
+            calificacionInput.classList.remove("error");
+            nombreInput.classList.add("error");
         } else {
-            alert("Ingrese una calificaciòn correcta");
-            input2.children[1].value = "";
+            nombreInput.classList.remove("error")
+            calificacionInput.classList.add("error");
     }
     }
-});
 
+});
 botonCalcular.addEventListener("submit", (e) => {
     e.preventDefault();
-    let alumnos = JSON.parse(sessionStorage.getItem("alumnos"));
+    let alumnos = JSON.parse(localStorage.getItem("alumnos"));
     if (alumnos != null ){
         contenedor.innerHTML = '';
         let estudianteConCalificacionMasAlta = calcular.encontrarEstudianteConCalificacionMasAlta(alumnos);
@@ -70,5 +75,14 @@ botonCalcular.addEventListener("submit", (e) => {
         </div>`;
         contenedor.append(div);
     }
+});
+botonCalcular.addEventListener("reset", (e) => {
+    e.preventDefault();
+    localStorage.clear();
+    contenedor.innerHTML = '';
+    Swal.fire({
+        title: "Se borro con éxito.",
+        icon: "success"
+    });
 });
 
