@@ -17,8 +17,7 @@ export function encontrarEstudianteConCalificacionMasAlta(estudiantes) {
         nombre: nombreMasAlto,
         calificacion: calificacionMasAlta,
     };
-}
-
+};
 export function encontrarEstudianteConCalificacionMasBaja(estudiantes) {
     if (estudiantes.length === 0) {
         return "No hay estudiantes en el array";
@@ -36,8 +35,7 @@ export function encontrarEstudianteConCalificacionMasBaja(estudiantes) {
         nombre: nombreMasBajo,
         calificacion: calificacionMasBaja,
     };
-}
-
+};
 export function sumarCalificaciones(estudiantes) {
     if (estudiantes.length === 0) {
         return "No hay calificaciones en el array";
@@ -47,4 +45,4 @@ export function sumarCalificaciones(estudiantes) {
         acumulador = acumulador + item.calificacion;
     }
     return acumulador;
-}
+};

@@ -1,11 +1,5 @@
-h1{
- padding: 35px;
- background-color: rgb(54, 54, 253);
- color: aliceblue;
- font-family: 'Courier New', Courier, monospace;
- font-size: 2rem;
- font-weight: bold;
- border-radius: 5px ;
+.encabezado{
+    border-top: 10px solid rgb(83, 93, 241);
 }
 form{
     background-color: rgb(208, 207, 207);

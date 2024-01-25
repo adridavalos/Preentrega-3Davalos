@@ -2,16 +2,35 @@ import * as calcular from "./calculo.js";
 
 let formulario = document.getElementById("formulario");
 let botonCalcular = document.getElementById("botonCalcular");
-let contenedor = document.getElementById("contenedor");
+let contenedorListaDeAlumnosAgregados = document.getElementById("contenedor");
 let calificacionInput = document.getElementById("inputCalificacion");
 let nombreInput = document.getElementById("inputNombre");
 
-formulario.addEventListener("submit", (e) => {
-  e.preventDefault(); //evito que se recargue el formulario
+const mostrarAlumnos = () => {
+    if (localStorage.getItem("alumnos") != null) {
+        const alumnos = JSON.parse(localStorage.getItem("alumnos"));
+        contenedorListaDeAlumnosAgregados.innerHTML = '';
+        for (let index = 0; index < alumnos.length; index++) {
+            let div = document.createElement("div")
+            div.innerHTML = 
+                `<h6 class="card-title mt-2">${alumnos[index].nombre}  ${alumnos[index].calificacion}</h6>`
+            contenedorListaDeAlumnosAgregados.append(div);
+        }
+    }else{
+        contenedorListaDeAlumnosAgregados.innerHTML = '';
+        let div = document.createElement("div")
+        div.innerHTML = `<h2 class="card-title mt-5">No hay ningun alumno cargado.</h2>`;
+        contenedorListaDeAlumnosAgregados.append(div);
+    }
+};
 
+window.onload = mostrarAlumnos;
+
+formulario.addEventListener("submit", (e) => {
+  e.preventDefault();
     let input1 = e.target.children[0].children[0].children[0]; 
     let input2 = e.target.children[0].children[1].children[0];
-    let input2Parse = parseInt(input2.children[1].value);
+    let input2Parse = parseFloat(input2.children[1].value);
 
     if (input2Parse > 0 && input2Parse <= 10 && input1.children[1].value != ""){
         let alumnos = [];
@@ -26,8 +45,11 @@ formulario.addEventListener("submit", (e) => {
             calificacion: input2Parse,
         });
         localStorage.setItem("alumnos", JSON.stringify(alumnos));
+        mostrarAlumnos()
         input1.children[1].value = "";
         input2.children[1].value = "";
+        
+        
     } else {
         if (input1.children[1].value == "") {
             calificacionInput.classList.remove("error");
@@ -37,48 +59,30 @@ formulario.addEventListener("submit", (e) => {
             calificacionInput.classList.add("error");
     }
     }
-
 });
 botonCalcular.addEventListener("submit", (e) => {
     e.preventDefault();
     let alumnos = JSON.parse(localStorage.getItem("alumnos"));
     if (alumnos != null ){
-        contenedor.innerHTML = '';
         let estudianteConCalificacionMasAlta = calcular.encontrarEstudianteConCalificacionMasAlta(alumnos);
         let estudianteConCalificacionMasBaja = calcular.encontrarEstudianteConCalificacionMasBaja(alumnos);
         let div = document.createElement("div")
-        div.innerHTML = `
-        <div class="row">
-            <div class="card">
-                <div class="card-body">
-                    <h2 class="card-title mt-5">Promedio obtenido</h2>
-                    <h3 class="card-subtitle mb-2 text-body-secondary">${(calcular.calcularPromedio( calcular.sumarCalificaciones(alumnos), alumnos.length)).toFixed(2)}</h3>
-                    <h2 class="card-title">La calificación mas alta es de ${estudianteConCalificacionMasAlta["nombre"]}</h2>
-                    <h3 class="card-subtitle mb-2 text-body-secondary">${estudianteConCalificacionMasAlta["calificacion"]}</h3>
-                    <h2 class="card-title">La calificación mas baja es de ${estudianteConCalificacionMasBaja["nombre"]}</h2>
-                    <h3 class="card-subtitle mb-2 text-body-secondary">${estudianteConCalificacionMasBaja["calificacion"]}</h3>
-                </div>
-            </div>
-        </div>`;
-        contenedor.append(div); 
-    }else {
-        contenedor.innerHTML = '';
-        let div = document.createElement("div")
-        div.innerHTML = `
-        <div class="row">
-            <div class="card">
-                <div class="card-body">
-                    <h2 class="card-title mt-5">No hay ningun alumno cargado.</h2>
-                </div>
-            </div>
-        </div>`;
-        contenedor.append(div);
+        div.innerHTML = 
+            `<div class="card">
+                <h4 class="card-title mt-3">Promedio obtenido: 
+                ${(calcular.calcularPromedio( calcular.sumarCalificaciones(alumnos), alumnos.length)).toFixed(2)}</h4>
+                <h4 class="card-title">La calificación mas alta es de ${estudianteConCalificacionMasAlta["nombre"]}: 
+                ${estudianteConCalificacionMasAlta["calificacion"]}</h4>
+                <h4 class="card-title">La calificación mas baja es de ${estudianteConCalificacionMasBaja["nombre"]}: 
+                ${estudianteConCalificacionMasBaja["calificacion"]}</h4>
+            </div>`;
+        contenedorListaDeAlumnosAgregados.append(div); 
     }
 });
 botonCalcular.addEventListener("reset", (e) => {
     e.preventDefault();
     localStorage.clear();
-    contenedor.innerHTML = '';
+    mostrarAlumnos();
     calificacionInput.classList.remove("error");
     nombreInput.classList.remove("error");
     Swal.fire({
